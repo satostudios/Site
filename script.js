@@ -309,3 +309,176 @@ setTimeout(() => {
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const track = document.querySelector('.marquee-track');
 }
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ══════════════════════════════════════
+   2D PARTICLE CONSTELLATION BACKGROUND
+══════════════════════════════════════ */
+(function initParticles() {
+  if (reduceMotion) return;
+  const canvas = document.createElement('canvas');
+  canvas.id = 'particles-canvas';
+  document.body.insertBefore(canvas, document.body.firstChild);
+  const ctx = canvas.getContext('2d');
+
+  let w, h, particles;
+  const isMobile = window.innerWidth < 700;
+  const COUNT = isMobile ? 32 : 68;
+  const MAXDIST = isMobile ? 85 : 130;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  function makeParticles() {
+    particles = Array.from({ length: COUNT }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.22,
+      vy: (Math.random() - 0.5) * 0.22,
+      r: Math.random() * 1.5 + 0.6
+    }));
+  }
+  resize();
+  makeParticles();
+  window.addEventListener('resize', () => { resize(); makeParticles(); });
+
+  function step() {
+    ctx.clearRect(0, 0, w, h);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200,255,0,.4)';
+      ctx.fill();
+    }
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i], b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < MAXDIST) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(245,243,238,${0.07 * (1 - dist / MAXDIST)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+/* ══════════════════════════════════════
+   HERO 3D WIREFRAME (Three.js)
+══════════════════════════════════════ */
+(function initHero3D() {
+  if (typeof THREE === 'undefined' || reduceMotion) return;
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  if (window.innerWidth < 900) return;
+
+  const mount = document.createElement('div');
+  mount.className = 'hero-3d';
+  hero.appendChild(mount);
+
+  let width = mount.clientWidth || hero.clientWidth * 0.46;
+  let height = hero.clientHeight;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+  camera.position.z = 6;
+
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  mount.appendChild(renderer.domElement);
+
+  const geo = new THREE.IcosahedronGeometry(2.2, 1);
+  const wire = new THREE.WireframeGeometry(geo);
+  const mat = new THREE.LineBasicMaterial({ color: 0xc8ff00, transparent: true, opacity: 0.35 });
+  const mesh = new THREE.LineSegments(wire, mat);
+  scene.add(mesh);
+
+  const geo2 = new THREE.IcosahedronGeometry(1.3, 0);
+  const wire2 = new THREE.WireframeGeometry(geo2);
+  const mat2 = new THREE.LineBasicMaterial({ color: 0xff6b35, transparent: true, opacity: 0.18 });
+  const mesh2 = new THREE.LineSegments(wire2, mat2);
+  scene.add(mesh2);
+
+  let mouseX = 0, mouseY = 0;
+  window.addEventListener('mousemove', e => {
+    mouseX = (e.clientX / window.innerWidth) - 0.5;
+    mouseY = (e.clientY / window.innerHeight) - 0.5;
+  });
+
+  function animate() {
+    mesh.rotation.x += 0.0022 + mouseY * 0.0018;
+    mesh.rotation.y += 0.0032 + mouseX * 0.0018;
+    mesh2.rotation.x -= 0.0016;
+    mesh2.rotation.y += 0.0026;
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 900) { mount.style.display = 'none'; return; }
+    mount.style.display = '';
+    width = mount.clientWidth || hero.clientWidth * 0.46;
+    height = hero.clientHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  });
+})();
+
+/* ══════════════════════════════════════
+   3D MOUSE TILT — extended to more cards
+══════════════════════════════════════ */
+function apply3DTilt(selector, intensity = 6) {
+  if (!isFinePointer) return;
+  document.querySelectorAll(selector).forEach(card => {
+    card.style.transformStyle = 'preserve-3d';
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transition = 'transform .1s ease';
+      card.style.transform = `perspective(700px) translateY(-4px) rotateX(${-y * intensity}deg) rotateY(${x * intensity}deg)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1)';
+      card.style.transform = '';
+    });
+  });
+}
+apply3DTilt('.tool-cell', 5);
+apply3DTilt('.test-card', 4);
+apply3DTilt('.chip', 8);
+apply3DTilt('.pcard-plan:not(.dim)', 4);
+
+/* ══════════════════════════════════════
+   MAGNETIC BUTTONS (2D pull toward cursor)
+══════════════════════════════════════ */
+function magnetize(selector, strength = 0.35, max = 10) {
+  if (!isFinePointer) return;
+  document.querySelectorAll(selector).forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const dx = (e.clientX - r.left - r.width / 2) * strength;
+      const dy = (e.clientY - r.top - r.height / 2) * strength;
+      const cx = Math.max(-max, Math.min(max, dx));
+      const cy = Math.max(-max, Math.min(max, dy));
+      btn.style.transform = `translate(${cx}px, ${cy}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+}
+magnetize('.btn-p, .btn-g, .hdr-cta, .pbtn.accent');
