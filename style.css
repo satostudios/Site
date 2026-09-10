@@ -16,6 +16,7 @@
   --mut:   rgba(245,243,238,0.5);
   --dim:   rgba(245,243,238,0.25);
   --acc:   #c8ff00;
+  --acc-rgb: 200,255,0;
   --acc2:  #ff6b35;
   --fd:    'Unbounded',sans-serif;
   --fs:    'Instrument Serif',serif;
@@ -169,7 +170,7 @@ body{
   display:flex;flex-direction:column;
   background:rgba(8,8,8,.97);
   border-top:1px solid var(--bd);
-  padding:12px var(--pad) -1px;
+  padding:12px var(--pad) 0;
   overflow:hidden;
   max-height:0;
   transition:max-height .35s cubic-bezier(.16,1,.3,1),padding .35s;
