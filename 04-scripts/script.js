@@ -6,7 +6,7 @@
    CUSTOM CURSOR
 ══════════════════════════════════════ */
 const isFinePointer = window.matchMedia('(pointer:fine)').matches;
-const cDot  = document.getElementById('cDot');
+const cDot = document.getElementById('cDot');
 const cRing = document.getElementById('cRing');
 
 if (isFinePointer && cDot && cRing) {
@@ -16,27 +16,27 @@ if (isFinePointer && cDot && cRing) {
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
     cDot.style.left = mx + 'px';
-    cDot.style.top  = my + 'px';
+    cDot.style.top = my + 'px';
   });
 
   (function animRing() {
     rx += (mx - rx) * 0.13;
     ry += (my - ry) * 0.13;
     cRing.style.left = rx + 'px';
-    cRing.style.top  = ry + 'px';
+    cRing.style.top = ry + 'px';
     requestAnimationFrame(animRing);
   })();
 
   const hoverEls = document.querySelectorAll('a, button, .tag, .pcard, .chip, .pcard-plan');
   hoverEls.forEach(el => {
     el.addEventListener('mouseenter', () => {
-      cRing.style.width  = '52px';
+      cRing.style.width = '52px';
       cRing.style.height = '52px';
       cRing.style.borderColor = 'rgba(200,255,0,.7)';
       cDot.style.opacity = '0';
     });
     el.addEventListener('mouseleave', () => {
-      cRing.style.width  = '32px';
+      cRing.style.width = '32px';
       cRing.style.height = '32px';
       cRing.style.borderColor = 'rgba(200,255,0,.35)';
       cDot.style.opacity = '1';
@@ -50,10 +50,10 @@ if (isFinePointer && cDot && cRing) {
 const clockEl = document.getElementById('clock');
 function tickClock() {
   if (!clockEl) return;
-  const n  = new Date();
-  const hh = String(n.getHours()).padStart(2,'0');
-  const mm = String(n.getMinutes()).padStart(2,'0');
-  const ss = String(n.getSeconds()).padStart(2,'0');
+  const n = new Date();
+  const hh = String(n.getHours()).padStart(2, '0');
+  const mm = String(n.getMinutes()).padStart(2, '0');
+  const ss = String(n.getSeconds()).padStart(2, '0');
   clockEl.textContent = `${hh}:${mm}:${ss}`;
 }
 tickClock();
@@ -155,13 +155,13 @@ if (isFinePointer) {
    PARALLAX HERO ORBS
 ══════════════════════════════════════ */
 const pxSlow = document.querySelector('.px-slow');
-const pxMid  = document.querySelector('.px-mid');
+const pxMid = document.querySelector('.px-mid');
 
 if (pxSlow && pxMid && isFinePointer) {
   window.addEventListener('scroll', () => {
     const y = window.pageYOffset;
     pxSlow.style.transform = `translateY(${y * 0.18}px)`;
-    pxMid.style.transform  = `translateY(${y * 0.32}px)`;
+    pxMid.style.transform = `translateY(${y * 0.32}px)`;
   }, { passive: true });
 }
 
@@ -186,7 +186,7 @@ revEls.forEach(el => revObs.observe(el));
 ══════════════════════════════════════ */
 function animateCounter(el, target, suffix = '', duration = 900) {
   const start = performance.now();
-  const from  = 0;
+  const from = 0;
   // ease-out cubic
   function update(now) {
     const elapsed = now - start;
@@ -223,25 +223,33 @@ const priceObs = new IntersectionObserver(entries => {
 priceCounters.forEach(el => priceObs.observe(el));
 
 /* ══════════════════════════════════════
-   PROJECT CARD 3D TILT (desktop)
+   3D TILT CARDS (desktop)
 ══════════════════════════════════════ */
-if (isFinePointer) {
-  document.querySelectorAll('.pcard').forEach(card => {
-    card.style.transformStyle = 'preserve-3d';
-    card.style.perspective = '900px';
-
+function init3DTilt(selector, { maxDeg = 6, lift = 6, scale = 1.02 } = {}) {
+  document.querySelectorAll(selector).forEach(card => {
     card.addEventListener('mousemove', e => {
       const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - 0.5;
-      const y = (e.clientY - r.top)  / r.height - 0.5;
-      card.style.transition = 'transform .1s ease, border-color .3s, box-shadow .4s';
-      card.style.transform  = `translateY(-8px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg)`;
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      const rx = (-y * maxDeg).toFixed(2);
+      const ry = (x * maxDeg).toFixed(2);
+      card.style.transition = 'transform .1s ease';
+      card.style.transform = `perspective(900px) translateY(-${lift}px) scale(${scale}) rotateX(${rx}deg) rotateY(${ry}deg)`;
+      card.style.boxShadow = `${(-x * 24).toFixed(1)}px ${(18 - y * 12).toFixed(1)}px 40px rgba(0,0,0,.45)`;
     });
     card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1), border-color .3s, box-shadow .4s';
-      card.style.transform  = '';
+      card.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s';
+      card.style.transform = '';
+      card.style.boxShadow = '';
     });
   });
+}
+
+if (isFinePointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  init3DTilt('.pcard', { maxDeg: 8, lift: 8, scale: 1.03 });
+  init3DTilt('.pcard-plan', { maxDeg: 7, lift: 4, scale: 1.02 });
+  init3DTilt('.tool-cell', { maxDeg: 6, lift: 4, scale: 1.02 });
+  init3DTilt('.test-card', { maxDeg: 6, lift: 4, scale: 1.02 });
 }
 
 /* ══════════════════════════════════════
@@ -250,8 +258,8 @@ if (isFinePointer) {
 document.querySelectorAll('.pcard-plan:not(.dim)').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
-    const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+    const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
+    const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
     card.style.setProperty('--mx', x + '%');
     card.style.setProperty('--my', y + '%');
     card.style.backgroundImage = `radial-gradient(circle at ${x}% ${y}%, rgba(200,255,0,.06) 0%, transparent 60%)`;
@@ -309,176 +317,3 @@ setTimeout(() => {
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   const track = document.querySelector('.marquee-track');
 }
-
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-/* ══════════════════════════════════════
-   2D PARTICLE CONSTELLATION BACKGROUND
-══════════════════════════════════════ */
-(function initParticles() {
-  if (reduceMotion) return;
-  const canvas = document.createElement('canvas');
-  canvas.id = 'particles-canvas';
-  document.body.insertBefore(canvas, document.body.firstChild);
-  const ctx = canvas.getContext('2d');
-
-  let w, h, particles;
-  const isMobile = window.innerWidth < 700;
-  const COUNT = isMobile ? 32 : 68;
-  const MAXDIST = isMobile ? 85 : 130;
-
-  function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-  }
-  function makeParticles() {
-    particles = Array.from({ length: COUNT }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      vx: (Math.random() - 0.5) * 0.22,
-      vy: (Math.random() - 0.5) * 0.22,
-      r: Math.random() * 1.5 + 0.6
-    }));
-  }
-  resize();
-  makeParticles();
-  window.addEventListener('resize', () => { resize(); makeParticles(); });
-
-  function step() {
-    ctx.clearRect(0, 0, w, h);
-    for (const p of particles) {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(200,255,0,.4)';
-      ctx.fill();
-    }
-    for (let i = 0; i < particles.length; i++) {
-      for (let j = i + 1; j < particles.length; j++) {
-        const a = particles[i], b = particles[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MAXDIST) {
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(245,243,238,${0.07 * (1 - dist / MAXDIST)})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-})();
-
-/* ══════════════════════════════════════
-   HERO 3D WIREFRAME (Three.js)
-══════════════════════════════════════ */
-(function initHero3D() {
-  if (typeof THREE === 'undefined' || reduceMotion) return;
-  const hero = document.getElementById('hero');
-  if (!hero) return;
-  if (window.innerWidth < 900) return;
-
-  const mount = document.createElement('div');
-  mount.className = 'hero-3d';
-  hero.appendChild(mount);
-
-  let width = mount.clientWidth || hero.clientWidth * 0.46;
-  let height = hero.clientHeight;
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-  camera.position.z = 6;
-
-  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-  renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  mount.appendChild(renderer.domElement);
-
-  const geo = new THREE.IcosahedronGeometry(2.2, 1);
-  const wire = new THREE.WireframeGeometry(geo);
-  const mat = new THREE.LineBasicMaterial({ color: 0xc8ff00, transparent: true, opacity: 0.35 });
-  const mesh = new THREE.LineSegments(wire, mat);
-  scene.add(mesh);
-
-  const geo2 = new THREE.IcosahedronGeometry(1.3, 0);
-  const wire2 = new THREE.WireframeGeometry(geo2);
-  const mat2 = new THREE.LineBasicMaterial({ color: 0xff6b35, transparent: true, opacity: 0.18 });
-  const mesh2 = new THREE.LineSegments(wire2, mat2);
-  scene.add(mesh2);
-
-  let mouseX = 0, mouseY = 0;
-  window.addEventListener('mousemove', e => {
-    mouseX = (e.clientX / window.innerWidth) - 0.5;
-    mouseY = (e.clientY / window.innerHeight) - 0.5;
-  });
-
-  function animate() {
-    mesh.rotation.x += 0.0022 + mouseY * 0.0018;
-    mesh.rotation.y += 0.0032 + mouseX * 0.0018;
-    mesh2.rotation.x -= 0.0016;
-    mesh2.rotation.y += 0.0026;
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 900) { mount.style.display = 'none'; return; }
-    mount.style.display = '';
-    width = mount.clientWidth || hero.clientWidth * 0.46;
-    height = hero.clientHeight;
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
-  });
-})();
-
-/* ══════════════════════════════════════
-   3D MOUSE TILT — extended to more cards
-══════════════════════════════════════ */
-function apply3DTilt(selector, intensity = 6) {
-  if (!isFinePointer) return;
-  document.querySelectorAll(selector).forEach(card => {
-    card.style.transformStyle = 'preserve-3d';
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      card.style.transition = 'transform .1s ease';
-      card.style.transform = `perspective(700px) translateY(-4px) rotateX(${-y * intensity}deg) rotateY(${x * intensity}deg)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1)';
-      card.style.transform = '';
-    });
-  });
-}
-apply3DTilt('.tool-cell', 5);
-apply3DTilt('.test-card', 4);
-apply3DTilt('.chip', 8);
-apply3DTilt('.pcard-plan:not(.dim)', 4);
-
-/* ══════════════════════════════════════
-   MAGNETIC BUTTONS (2D pull toward cursor)
-══════════════════════════════════════ */
-function magnetize(selector, strength = 0.35, max = 10) {
-  if (!isFinePointer) return;
-  document.querySelectorAll(selector).forEach(btn => {
-    btn.addEventListener('mousemove', e => {
-      const r = btn.getBoundingClientRect();
-      const dx = (e.clientX - r.left - r.width / 2) * strength;
-      const dy = (e.clientY - r.top - r.height / 2) * strength;
-      const cx = Math.max(-max, Math.min(max, dx));
-      const cy = Math.max(-max, Math.min(max, dy));
-      btn.style.transform = `translate(${cx}px, ${cy}px)`;
-    });
-    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-  });
-}
-magnetize('.btn-p, .btn-g, .hdr-cta, .pbtn.accent');
