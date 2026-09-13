@@ -1,5 +1,5 @@
 /* ==========================================
-   SATO STUDIOS v3.1 — All Animations
+   SATO STUDIOS v4.0 — Editorial Minimal
    ========================================== */
 
 /* ══════════════════════════════════════
@@ -20,25 +20,25 @@ if (isFinePointer && cDot && cRing) {
   });
 
   (function animRing() {
-    rx += (mx - rx) * 0.13;
-    ry += (my - ry) * 0.13;
+    rx += (mx - rx) * 0.15;
+    ry += (my - ry) * 0.15;
     cRing.style.left = rx + 'px';
     cRing.style.top = ry + 'px';
     requestAnimationFrame(animRing);
   })();
 
-  const hoverEls = document.querySelectorAll('a, button, .tag, .pcard, .chip, .pcard-plan');
+  const hoverEls = document.querySelectorAll('a, button, .tag, .pcard, .chip, .pcard-plan, .tool-cell, .test-card, .faq-q');
   hoverEls.forEach(el => {
     el.addEventListener('mouseenter', () => {
-      cRing.style.width = '52px';
-      cRing.style.height = '52px';
-      cRing.style.borderColor = 'rgba(200,255,0,.7)';
+      cRing.style.width = '54px';
+      cRing.style.height = '54px';
+      cRing.style.borderColor = 'rgba(var(--acc-rgb),.6)';
       cDot.style.opacity = '0';
     });
     el.addEventListener('mouseleave', () => {
-      cRing.style.width = '32px';
-      cRing.style.height = '32px';
-      cRing.style.borderColor = 'rgba(200,255,0,.35)';
+      cRing.style.width = '30px';
+      cRing.style.height = '30px';
+      cRing.style.borderColor = 'rgba(var(--acc-rgb),.3)';
       cDot.style.opacity = '1';
     });
   });
@@ -63,11 +63,8 @@ setInterval(tickClock, 1000);
    HEADER SCROLL
 ══════════════════════════════════════ */
 const hdr = document.getElementById('hdr');
-let lastY = 0;
 window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  hdr.classList.toggle('scrolled', y > 50);
-  lastY = y;
+  hdr.classList.toggle('scrolled', window.scrollY > 40);
 }, { passive: true });
 
 /* ══════════════════════════════════════
@@ -77,7 +74,7 @@ const burger = document.getElementById('burger');
 const mobNav = document.getElementById('mobNav');
 
 if (burger && mobNav) {
-  mobNav.removeAttribute('hidden');  // enable CSS-driven collapse
+  mobNav.removeAttribute('hidden');
 
   burger.addEventListener('click', () => {
     const isOpen = mobNav.classList.toggle('open');
@@ -100,7 +97,6 @@ if (burger && mobNav) {
 /* ══════════════════════════════════════
    SMOOTH SCROLL (wheel + anchor)
 ══════════════════════════════════════ */
-// Only on desktop to not fight mobile native scroll
 if (isFinePointer) {
   let cur = window.pageYOffset;
   let tgt = cur;
@@ -125,7 +121,7 @@ if (isFinePointer) {
       const t = document.querySelector(a.getAttribute('href'));
       if (!t) return;
       e.preventDefault();
-      tgt = t.getBoundingClientRect().top + window.pageYOffset - 72;
+      tgt = t.getBoundingClientRect().top + window.pageYOffset - 76;
       if (!going) { going = true; requestAnimationFrame(smoothStep); }
     });
   });
@@ -138,7 +134,6 @@ if (isFinePointer) {
     });
   }
 } else {
-  // Mobile: native anchor scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const t = document.querySelector(a.getAttribute('href'));
@@ -152,16 +147,14 @@ if (isFinePointer) {
 }
 
 /* ══════════════════════════════════════
-   PARALLAX HERO ORBS
+   PARALLAX HERO ORBS (subtle)
 ══════════════════════════════════════ */
 const pxSlow = document.querySelector('.px-slow');
-const pxMid = document.querySelector('.px-mid');
 
-if (pxSlow && pxMid && isFinePointer) {
+if (pxSlow && isFinePointer) {
   window.addEventListener('scroll', () => {
     const y = window.pageYOffset;
-    pxSlow.style.transform = `translateY(${y * 0.18}px)`;
-    pxMid.style.transform = `translateY(${y * 0.32}px)`;
+    pxSlow.style.transform = `translateY(${y * 0.15}px)`;
   }, { passive: true });
 }
 
@@ -181,18 +174,14 @@ revEls.forEach(el => revObs.observe(el));
 
 /* ══════════════════════════════════════
    COUNTER ANIMATION
-   Targets: [data-count] inside .hero-stats
-   and [data-count] inside .pprice b
 ══════════════════════════════════════ */
 function animateCounter(el, target, suffix = '', duration = 900) {
   const start = performance.now();
-  const from = 0;
-  // ease-out cubic
   function update(now) {
     const elapsed = now - start;
     const progress = Math.min(elapsed / duration, 1);
     const eased = 1 - Math.pow(1 - progress, 3);
-    const value = Math.round(from + (target - from) * eased);
+    const value = Math.round(target * eased);
     el.textContent = value + suffix;
     if (progress < 1) requestAnimationFrame(update);
     else el.textContent = target + suffix;
@@ -200,7 +189,6 @@ function animateCounter(el, target, suffix = '', duration = 900) {
   requestAnimationFrame(update);
 }
 
-// Hero stat counters — run once on page load (already visible)
 window.addEventListener('load', () => {
   document.querySelectorAll('.sn[data-count]').forEach(el => {
     const target = parseInt(el.dataset.count, 10);
@@ -209,7 +197,6 @@ window.addEventListener('load', () => {
   });
 });
 
-// Price counters — run when card scrolls into view
 const priceCounters = document.querySelectorAll('.pprice b[data-count]');
 const priceObs = new IntersectionObserver(entries => {
   entries.forEach(entry => {
@@ -223,46 +210,33 @@ const priceObs = new IntersectionObserver(entries => {
 priceCounters.forEach(el => priceObs.observe(el));
 
 /* ══════════════════════════════════════
-   3D TILT CARDS (desktop)
+   MAGNETIC BUTTONS (subtle pull toward cursor)
 ══════════════════════════════════════ */
-function init3DTilt(selector, { maxDeg = 6, lift = 6, scale = 1.02 } = {}) {
-  document.querySelectorAll(selector).forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      const rx = (-y * maxDeg).toFixed(2);
-      const ry = (x * maxDeg).toFixed(2);
-      card.style.transition = 'transform .1s ease';
-      card.style.transform = `perspective(900px) translateY(-${lift}px) scale(${scale}) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      card.style.boxShadow = `${(-x * 24).toFixed(1)}px ${(18 - y * 12).toFixed(1)}px 40px rgba(0,0,0,.45)`;
+if (isFinePointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.btn-p, .btn-g, .hdr-cta').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2;
+      const y = e.clientY - r.top - r.height / 2;
+      btn.style.transition = 'transform .15s ease-out';
+      btn.style.transform = `translate(${x * 0.18}px, ${y * 0.28}px)`;
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s';
-      card.style.transform = '';
-      card.style.boxShadow = '';
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transition = 'transform .4s cubic-bezier(.16,1,.3,1)';
+      btn.style.transform = '';
     });
   });
 }
 
-if (isFinePointer && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  init3DTilt('.pcard', { maxDeg: 8, lift: 8, scale: 1.03 });
-  init3DTilt('.pcard-plan', { maxDeg: 7, lift: 4, scale: 1.02 });
-  init3DTilt('.tool-cell', { maxDeg: 6, lift: 4, scale: 1.02 });
-  init3DTilt('.test-card', { maxDeg: 6, lift: 4, scale: 1.02 });
-}
-
 /* ══════════════════════════════════════
-   PLAN CARD HOVER SHIMMER
+   CARD LIFT ON HOVER (gentle, no tilt)
 ══════════════════════════════════════ */
 document.querySelectorAll('.pcard-plan:not(.dim)').forEach(card => {
   card.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width * 100).toFixed(1);
     const y = ((e.clientY - r.top) / r.height * 100).toFixed(1);
-    card.style.setProperty('--mx', x + '%');
-    card.style.setProperty('--my', y + '%');
-    card.style.backgroundImage = `radial-gradient(circle at ${x}% ${y}%, rgba(200,255,0,.06) 0%, transparent 60%)`;
+    card.style.backgroundImage = `radial-gradient(circle at ${x}% ${y}%, rgba(var(--acc-rgb),.05) 0%, transparent 60%)`;
   });
   card.addEventListener('mouseleave', () => {
     card.style.backgroundImage = '';
@@ -271,7 +245,6 @@ document.querySelectorAll('.pcard-plan:not(.dim)').forEach(card => {
 
 /* ══════════════════════════════════════
    STAGGER CHILDREN on reveal
-  (for plan-grid and proj-grid)
 ══════════════════════════════════════ */
 function staggerChildren(parent, selector, baseDelay = 0, step = 0.08) {
   if (!parent) return;
@@ -298,22 +271,3 @@ document.querySelectorAll('.plan-grid, .proj-grid').forEach(grid => {
   });
   planRevObs.observe(grid);
 });
-
-/* ══════════════════════════════════════
-   HERO TITLE — LETTER SPLIT glitch flash
-  (runs once, 0.6s after page load)
-══════════════════════════════════════ */
-setTimeout(() => {
-  const heroTitle = document.querySelector('.hero-display');
-  if (!heroTitle) return;
-  heroTitle.style.transition = 'filter .08s';
-  heroTitle.style.filter = 'blur(2px) brightness(1.4)';
-  setTimeout(() => { heroTitle.style.filter = ''; }, 80);
-}, 900);
-
-/* ══════════════════════════════════════
-   MARQUEE pause on reduced-motion
-══════════════════════════════════════ */
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  const track = document.querySelector('.marquee-track');
-}
