@@ -79,9 +79,12 @@ function fitWordmarks() {
     const cs = getComputedStyle(el);
     const avail = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const kids = [...el.children];
-    const used = kids.reduce((s, k) => s + k.getBoundingClientRect().width, 0);
+    const widths = kids.map(k => k.getBoundingClientRect().width);
+    // no mobile o letreiro fica em duas linhas: a linha mais larga define o tamanho
+    const stacked = cs.flexDirection === 'column';
+    const used = stacked ? Math.max(...widths) : widths.reduce((s, w) => s + w, 0);
     if (!used) return;
-    const gap = kids.length > 1 ? avail * 0.035 : 0;
+    const gap = !stacked && kids.length > 1 ? avail * 0.035 : 0;
     el.style.fontSize = (100 * (avail - gap) / used) + 'px';
   });
 }
@@ -228,25 +231,49 @@ if (loader && !document.documentElement.classList.contains('no-loader')) {
 ══════════════════════════════════════ */
 const domes = $$('.dome').map(d => d.parentElement);
 const reel = $('[data-reel]');
+const reelSticky = reel ? $('.reel-sticky', reel) : null;
 const reelCols = reel ? $$('.reel-col', reel) : [];
 const vision = $('[data-vision]');
+const visionSticky = vision ? $('.vision-sticky', vision) : null;
 const vLines = vision ? $$('.vl', vision) : [];
 const vNum = vision ? $('[data-vnum]', vision) : null;
 const showreel = $('[data-showreel]');
+const showreelSticky = showreel ? $('.showreel-sticky', showreel) : null;
 const testi = $('[data-testi]');
+const testiSticky = testi ? $('.testi-sticky', testi) : null;
 const quotes = testi ? $$('.quote', testi) : [];
 const qNums = testi ? $$('.q-nums span', testi) : [];
 const progEls = $$('[data-progress]');
+const hdr = $('#hdr');
+const narrow = window.matchMedia('(max-width: 900px)');
 
 let vh = window.innerHeight;
 let ticking = false;
 let lastQuote = -1;
+let lastY = window.scrollY;
 
-const stickyProgress = r => clamp(-r.top / Math.max(1, r.height - vh));
+// usa a altura do bloco "sticky" (100svh), que não muda quando a barra do navegador mobile aparece/some
+const stickyProgress = (r, sticky) => clamp(-r.top / Math.max(1, r.height - (sticky ? sticky.offsetHeight : vh)));
+
+// no mobile o cabeçalho some ao rolar para baixo e volta ao rolar para cima
+function updateHeader() {
+  if (!hdr) return;
+  const y = window.scrollY;
+  const menuOpen = menu && menu.classList.contains('open');
+  if (!narrow.matches || y < 120 || menuOpen) {
+    hdr.classList.remove('is-hidden');
+    lastY = y;
+    return;
+  }
+  if (Math.abs(y - lastY) < 8) return;
+  hdr.classList.toggle('is-hidden', y > lastY);
+  lastY = y;
+}
 const easeInOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
 function update() {
   ticking = false;
+  updateHeader();
 
   domes.forEach(sec => {
     const top = sec.getBoundingClientRect().top;
@@ -263,8 +290,9 @@ function update() {
     if (r.bottom > 0 && r.top < vh) {
       reel.style.setProperty('--open', clamp(r.top / vh).toFixed(4));
       const p = clamp((vh - r.top) / r.height);
+      const sh = reelSticky.offsetHeight;
       reelCols.forEach(col => {
-        const travel = Math.max(0, col.offsetHeight - vh);
+        const travel = Math.max(0, col.offsetHeight - sh);
         const y = col.dataset.dir === 'down' ? -(1 - p) * travel : -p * travel;
         col.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
       });
@@ -274,7 +302,7 @@ function update() {
   if (vision) {
     const r = vision.getBoundingClientRect();
     if (r.bottom > 0 && r.top < vh) {
-      const p = stickyProgress(r);
+      const p = stickyProgress(r, visionSticky);
       const n = vLines.length;
       const v = p * (n + 0.4);
       vLines.forEach((l, i) => l.style.setProperty('--o', clamp(v - i).toFixed(3)));
@@ -286,7 +314,7 @@ function update() {
   if (showreel) {
     const r = showreel.getBoundingClientRect();
     if (r.bottom > 0 && r.top < vh) {
-      const p = stickyProgress(r);
+      const p = stickyProgress(r, showreelSticky);
       showreel.style.setProperty('--open', easeInOut(clamp(p / 0.75)).toFixed(4));
     }
   }
@@ -294,7 +322,7 @@ function update() {
   if (testi && quotes.length) {
     const r = testi.getBoundingClientRect();
     if (r.bottom > 0 && r.top < vh) {
-      const p = stickyProgress(r);
+      const p = stickyProgress(r, testiSticky);
       const idx = Math.min(quotes.length - 1, Math.floor(p * quotes.length));
       if (idx !== lastQuote) {
         lastQuote = idx;
@@ -319,7 +347,13 @@ function requestUpdate() {
 }
 
 window.addEventListener('scroll', requestUpdate, { passive: true });
-window.addEventListener('resize', () => { vh = window.innerHeight; fitWordmarks(); requestUpdate(); });
+let lastW = window.innerWidth;
+window.addEventListener('resize', () => {
+  vh = window.innerHeight;
+  // a barra de endereço do celular dispara resize só na altura: não precisa refazer o letreiro
+  if (window.innerWidth !== lastW) { lastW = window.innerWidth; fitWordmarks(); }
+  requestUpdate();
+});
 window.addEventListener('load', requestUpdate);
 update();
 
@@ -328,16 +362,23 @@ update();
 ══════════════════════════════════════ */
 if (showreel) {
   const video = $('video', showreel);
-  const near = new IntersectionObserver(entries => {
-    if (!entries[0].isIntersecting) return;
-    video.src = video.dataset.src;
-    video.load();
-    near.disconnect();
-  }, { rootMargin: '800px 0px' });
-  near.observe(showreel);
+  const conn = navigator.connection || {};
+  // economia de dados / conexão lenta: fica só a imagem de capa
+  const lite = conn.saveData || /(^|-)2g$/.test(conn.effectiveType || '');
+  video.muted = true;
+
+  if (!lite) {
+    const near = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      video.src = video.dataset.src;
+      video.load();
+      near.disconnect();
+    }, { rootMargin: narrow.matches ? '300px 0px' : '800px 0px' });
+    near.observe(showreel);
+  }
 
   const vis = new IntersectionObserver(entries => {
-    if (entries[0].isIntersecting && !reduceMotion) video.play().catch(() => { });
+    if (entries[0].isIntersecting && video.src && !reduceMotion) video.play().catch(() => { });
     else video.pause();
   }, { threshold: 0.05 });
   vis.observe(showreel);

@@ -37,6 +37,12 @@
 html {
   background: var(--white);
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a,
+button {
+  touch-action: manipulation;
 }
 
 html.lenis,
@@ -185,17 +191,34 @@ ul {
 
 .dome {
   position: absolute;
-  left: -25%;
-  width: 150%;
+  left: 0;
+  right: 0;
   height: var(--dome-h);
   bottom: calc(100% - 1px);
-  background: inherit;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dome::before {
+  content: '';
+  position: absolute;
+  left: -25%;
+  width: 150%;
+  top: 0;
+  height: 100%;
+  background: var(--dome-bg, var(--white));
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   transform-origin: 50% 100%;
   transform: scaleY(var(--k, 1));
-  pointer-events: none;
   will-change: transform;
 }
+
+.sec--grey,
+.testi { --dome-bg: var(--grey); }
+.sec--white { --dome-bg: var(--white); }
+.sec--dark,
+.reel { --dome-bg: var(--dark); }
+.showreel { --dome-bg: #000; }
 
 .sec-hd {
   align-items: start;
@@ -221,11 +244,6 @@ ul {
   transition: transform .5s var(--ease), box-shadow .5s var(--ease), background .3s;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 36px -14px rgba(0, 0, 0, .6);
-}
-
 .btn--light {
   background: var(--white);
   color: var(--ink);
@@ -235,10 +253,6 @@ ul {
 .btn--line {
   background: transparent;
   color: currentColor;
-  box-shadow: inset 0 0 0 1px currentColor;
-}
-
-.btn--line:hover {
   box-shadow: inset 0 0 0 1px currentColor;
 }
 
@@ -275,12 +289,6 @@ ul {
   transition-delay: calc(var(--i, 0) * 16ms);
 }
 
-a:hover .roll .c,
-button:not([disabled]):hover .roll .c,
-.roll-host:hover .roll .c {
-  transform: translateY(-1.25em);
-}
-
 /* Link underline */
 .ulink {
   position: relative;
@@ -298,11 +306,6 @@ button:not([disabled]):hover .roll .c,
   transform: scaleX(0);
   transform-origin: right;
   transition: transform .5s var(--ease);
-}
-
-.ulink:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
 }
 
 /* ── PRELOADER ── */
@@ -360,6 +363,11 @@ html.no-loader .loader {
   color: var(--white);
   mix-blend-mode: difference;
   pointer-events: none;
+  transition: transform .6s var(--ease);
+}
+
+.hdr.is-hidden {
+  transform: translateY(-110%);
 }
 
 .hdr-in {
@@ -427,7 +435,7 @@ html.no-loader .loader {
 
 .burger {
   width: 40px;
-  height: 28px;
+  height: 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -443,15 +451,12 @@ html.no-loader .loader {
   transform-origin: right;
 }
 
-.burger:hover span:last-child {
-  transform: scaleX(.6);
-}
-
 /* ── MENU PANEL ── */
 .menu {
   position: fixed;
   inset: 0;
   z-index: 300;
+  overflow: hidden;
   pointer-events: none;
   visibility: hidden;
   transition: visibility 0s linear .9s;
@@ -541,14 +546,6 @@ html.no-loader .loader {
 .menu.open .menu-links a {
   transform: none;
   transition-delay: calc(.12s + var(--i, 0) * 50ms);
-}
-
-.menu-links:hover a {
-  color: #5a5a5a;
-}
-
-.menu-links a:hover {
-  color: var(--grey);
 }
 
 .menu-foot {
@@ -872,11 +869,6 @@ html.no-loader .loader {
   object-fit: contain;
 }
 
-.tool:hover .tool-tile {
-  transform: translateY(-6px) rotate(-3deg);
-  box-shadow: 0 22px 40px -18px rgba(0, 0, 0, .35);
-}
-
 .tool-cap {
   position: absolute;
   left: 14px;
@@ -959,10 +951,6 @@ html.no-loader .loader {
   border-radius: 6px;
   box-shadow: 0 40px 70px -30px rgba(0, 0, 0, .65);
   transition: transform 1.2s var(--ease);
-}
-
-.wcard:hover .wcard-img {
-  transform: scale(1.035) translateY(-4px);
 }
 
 .wcard-cap {
@@ -1301,24 +1289,6 @@ html.no-loader .loader {
   transition: background .4s, color .4s, transform .6s var(--ease);
 }
 
-.svc-list:hover .svc {
-  opacity: .28;
-}
-
-.svc-list .svc:hover {
-  opacity: 1;
-}
-
-.svc:hover .svc-name {
-  transform: translateX(clamp(10px, 1.6vw, 24px));
-}
-
-.svc:hover .svc-arrow {
-  background: var(--ink);
-  color: var(--white);
-  transform: rotate(-45deg);
-}
-
 .svc-float {
   position: fixed;
   top: 0;
@@ -1383,6 +1353,7 @@ html.no-loader .loader {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background: #111 url('../02-videos/poster.webp') center / cover no-repeat;
   transform: scale(calc(1.25 - var(--open, 0) * .25));
 }
 
@@ -1867,10 +1838,6 @@ html.no-loader .loader {
   transition: background .5s;
 }
 
-.step:hover {
-  background: #1d1d1d;
-}
-
 .step .lbl {
   color: var(--mute-d);
 }
@@ -2102,10 +2069,6 @@ html.no-loader .loader {
   transition: color .3s;
 }
 
-.ftag:hover {
-  background: var(--grey-2);
-}
-
 .ftag.active {
   background: var(--ink);
   color: var(--white);
@@ -2141,10 +2104,6 @@ html.no-loader .loader {
   width: 100%;
   height: auto;
   transition: transform 1.2s var(--ease);
-}
-
-.gitem:hover img {
-  transform: scale(1.035);
 }
 
 .gitem-cap {
@@ -2229,13 +2188,88 @@ html.no-loader .loader {
   transition: background .3s;
 }
 
-.m-btn:hover {
-  background: rgba(255, 255, 255, .2);
-}
-
 .modal-nav {
   display: flex;
   gap: 8px;
+}
+
+
+/* ── HOVER (só em dispositivos com mouse) ── */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 36px -14px rgba(0, 0, 0, .6);
+  }
+
+  .btn--line:hover {
+    box-shadow: inset 0 0 0 1px currentColor;
+  }
+
+  a:hover .roll .c,
+  button:not([disabled]):hover .roll .c,
+  .roll-host:hover .roll .c {
+    transform: translateY(-1.25em);
+  }
+
+  .ulink:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .burger:hover span:last-child {
+    transform: scaleX(.6);
+  }
+
+  .menu-links:hover a {
+    color: #5a5a5a;
+  }
+
+  .menu-links a:hover {
+    color: var(--grey);
+  }
+
+  .tool:hover .tool-tile {
+    transform: translateY(-6px) rotate(-3deg);
+    box-shadow: 0 22px 40px -18px rgba(0, 0, 0, .35);
+  }
+
+  .wcard:hover .wcard-img {
+    transform: scale(1.035) translateY(-4px);
+  }
+
+  .svc-list:hover .svc {
+    opacity: .28;
+  }
+
+  .svc-list .svc:hover {
+    opacity: 1;
+  }
+
+  .svc:hover .svc-name {
+    transform: translateX(clamp(10px, 1.6vw, 24px));
+  }
+
+  .svc:hover .svc-arrow {
+    background: var(--ink);
+    color: var(--white);
+    transform: rotate(-45deg);
+  }
+
+  .step:hover {
+    background: #1d1d1d;
+  }
+
+  .ftag:hover {
+    background: var(--grey-2);
+  }
+
+  .gitem:hover img {
+    transform: scale(1.035);
+  }
+
+  .m-btn:hover {
+    background: rgba(255, 255, 255, .2);
+  }
 }
 
 /* ══════════════════════════════════════
@@ -2427,6 +2461,42 @@ html.no-loader .loader {
     grid-column: 2;
   }
 
+  /* Hero: letreiro em duas linhas, bem maior */
+  .hero {
+    padding-top: calc(var(--hdr) + 4px);
+  }
+
+  .hero-grid {
+    row-gap: 24px;
+  }
+
+  .hero-intro p {
+    font-size: 18px;
+    line-height: 1.28;
+    max-width: none;
+  }
+
+  .hero-foot {
+    padding-top: 36px;
+  }
+
+  .wordmark {
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: .86;
+    margin-top: 14px;
+  }
+
+  .wordmark > span {
+    overflow: hidden;
+    padding-block: .02em;
+  }
+
+  .wordmark > span:nth-child(2) {
+    align-self: flex-end;
+    margin-top: -.06em;
+  }
+
   .reel {
     height: 240vh;
   }
@@ -2492,9 +2562,17 @@ html.no-loader .loader {
     grid-column: 1 / -1;
   }
 
-  .b-img,
+  .b-img {
+    min-height: 320px;
+  }
+
   .b-card {
-    min-height: 340px;
+    min-height: 0;
+    gap: 40px;
+  }
+
+  .b-card .chat {
+    margin-top: -12px;
   }
 
   .vision {
@@ -2590,12 +2668,64 @@ html.no-loader .loader {
     display: none;
   }
 
+  .contact-btns .btn {
+    flex: 1 1 auto;
+    height: 50px;
+  }
+
+  .ftr-grid a {
+    padding-block: 3px;
+  }
+
   .ftr-grid > :last-child {
     grid-column: 1 / -1;
   }
 
   .gallery {
-    columns: 1;
+    columns: 2;
+    column-gap: 12px;
+  }
+
+  .gitem {
+    margin-bottom: 22px;
+  }
+
+  .gitem-media {
+    border-radius: 8px;
+  }
+
+  .gitem-cap {
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 8px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .gitem-cap span:last-child {
+    font-size: 12px;
+  }
+
+  .filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(-1 * var(--gx));
+    padding-inline: var(--gx);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ftag {
+    flex: none;
+  }
+
+  .pf-bar > .filters {
+    justify-self: stretch;
+    min-width: 0;
   }
 
   .pf-meta {
