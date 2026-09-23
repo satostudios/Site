@@ -3,760 +3,743 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>SATO STUDIOS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sato™ Studios — Design, Motion &amp; Code</title>
+  <meta name="description" content="Sato™ Studios — design gráfico, motion graphics, edição de vídeo e web. Goiás, Brasil." />
   <link rel="icon" href="01-imagens/logo.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;700;900&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="03-estilos/style.css" />
+  <script>
+    /* Preloader: só na primeira visita da sessão */
+    try {
+      if (sessionStorage.getItem('sato-loaded') || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('no-loader');
+      }
+    } catch (e) { document.documentElement.classList.add('no-loader'); }
+  </script>
 </head>
 
 <body>
 
-  <!-- Noise -->
-  <div class="noise" aria-hidden="true"></div>
-
-  <!-- Video BG -->
-  <div class="video-bg" aria-hidden="true">
-    <video autoplay muted loop playsinline>
-      <source src="02-videos/Fundo.mp4" type="video/mp4">
-    </video>
-    <div class="video-veil"></div>
+  <!-- ═══════════ PRELOADER ═══════════ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-word"><span>Sato<span class="tm">™</span></span></div>
+    <div class="loader-count" id="loaderCount">000</div>
   </div>
 
-  <!-- Custom cursor (desktop only) -->
-  <div class="c-dot" id="cDot" aria-hidden="true"></div>
-  <div class="c-ring" id="cRing" aria-hidden="true"></div>
-
-  <!-- ════════════════════════════════
-     HEADER
-════════════════════════════════ -->
+  <!-- ═══════════ HEADER ═══════════ -->
   <header class="hdr" id="hdr">
-    <div class="hdr-inner">
-      <a href="index.html" class="wordmark" aria-label="Sato Studios Home">
-        SATO<span>STUDIOS</span>
+    <div class="hdr-in">
+      <a href="index.html" class="logo" aria-label="Sato Studios — início">
+        <span class="logo-mark"><img src="01-imagens/logo.png" alt=""></span>
+        <span>Sato<span class="tm">™</span></span>
       </a>
-
-      <div class="hdr-mid">
-        <span class="live-dot" aria-hidden="true"></span>
-        <span id="clock" class="clock" aria-live="polite">00:00:00</span>
-      </div>
-
-      <nav class="hdr-nav" aria-label="Principal">
-        <a href="#sobre" class="hl">Sobre</a>
-        <a href="#ferramentas" class="hl">Skills</a>
-        <a href="#precos" class="hl">Preços</a>
-        <a href="portfolio.html" class="hl">Portfólio</a>
-        <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="hdr-cta">
-          Contato <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-            <path d="M1.5 8.5L8.5 1.5M8.5 1.5H3M8.5 1.5V7" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" />
-          </svg>
-        </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#sobre"><span class="roll">Sobre</span></a>
+        <a href="#trabalhos"><span class="roll">Trabalhos</span><small>(17)</small></a>
+        <a href="#servicos"><span class="roll">Serviços</span></a>
+        <a href="#precos"><span class="roll">Preços</span></a>
+        <a href="#contato"><span class="roll">Contato</span></a>
       </nav>
-
-      <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false">
-        <span></span><span></span>
-      </button>
+      <div class="hdr-end">
+        <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu">
+          <span></span><span></span>
+        </button>
+      </div>
     </div>
-
-    <nav class="mob-nav" id="mobNav" aria-label="Menu mobile" hidden>
-      <a href="#sobre" class="ml" tabindex="-1">Sobre</a>
-      <a href="#ferramentas" class="ml" tabindex="-1">Skills</a>
-      <a href="#precos" class="ml" tabindex="-1">Preços</a>
-      <a href="portfolio.html" class="ml" tabindex="-1">Portfólio</a>
-      <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="ml accent" tabindex="-1">Contato →</a>
-    </nav>
   </header>
 
-  <!-- ════════════════════════════════
-     HERO
-════════════════════════════════ -->
-  <section class="hero" id="hero">
-    <div class="px-layer px-slow" aria-hidden="true">
-      <div class="orb o1"></div>
-      <div class="orb o2"></div>
-    </div>
+  <!-- ═══════════ MENU ═══════════ -->
+  <div class="menu" id="menu" aria-hidden="true">
+    <div class="menu-bd" data-close></div>
+    <nav class="menu-panel" aria-label="Menu">
+      <div class="menu-top">
+        <span class="lbl">(Menu)</span>
+        <button class="menu-close" data-close><span class="roll">Fechar</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <ul class="menu-links">
+        <li><a href="index.html" style="--i:0">Home</a></li>
+        <li><a href="#sobre" style="--i:1">Sobre</a></li>
+        <li><a href="#trabalhos" style="--i:2">Trabalhos <small>(17)</small></a></li>
+        <li><a href="#servicos" style="--i:3">Serviços</a></li>
+        <li><a href="#precos" style="--i:4">Preços</a></li>
+        <li><a href="#contato" style="--i:5">Contato</a></li>
+      </ul>
+      <div class="menu-foot">
+        <div>
+          <span class="lbl">(Redes)</span>
+          <a href="https://www.instagram.com/sato_motion/" target="_blank" rel="noopener" class="ulink">Instagram</a>
+          <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="ulink">WhatsApp</a>
+        </div>
+        <div>
+          <span class="lbl">(Base)</span>
+          <p>Goiás, Brasil</p>
+          <p><span data-clock>00:00</span> BRT</p>
+        </div>
+      </div>
+    </nav>
+  </div>
 
-    <div class="hero-wrap">
-      <div class="hero-top anim-fade-down">
-        <span class="h-tag">Design · Motion · Code</span>
-        <span class="h-loc">GOIÁS, BRASIL</span>
+  <main>
+
+    <!-- ═══════════ HERO ═══════════ -->
+    <section class="hero" id="topo">
+      <div class="wrap grid4 hero-grid">
+        <ul class="hero-list rv">
+          <li>Design Gráfico</li>
+          <li>Motion Graphics</li>
+          <li>Edição de Vídeo</li>
+          <li>Web Design</li>
+          <li>Branding</li>
+        </ul>
+        <div class="hero-meta hero-base rv" style="--d:.06s">
+          <span class="lbl">(Base)</span>
+          <p>Goiás, Brasil</p>
+          <p><span data-clock>00:00:00</span> BRT</p>
+        </div>
+        <div class="hero-meta rv" style="--d:.12s">
+          <span class="lbl">(Status)</span>
+          <p><span class="live" aria-hidden="true"></span>Aceitando projetos</p>
+          <p>Resposta em até 24h</p>
+        </div>
+        <div class="hero-intro rv" style="--d:.18s">
+          <p>Sem artes genéricas. Sem promessas vazias. Só design, movimento e código pensados para fazer sua marca
+            crescer.</p>
+          <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn"><span class="roll">Vamos
+              conversar</span></a>
+        </div>
       </div>
 
-      <h1 class="hero-display">
-        <span class="hd l1">CÓDIGO</span>
-        <span class="hd l2">EM <em>MOVI</em></span>
-        <span class="hd l3">MENTO<b class="dot">.</b></span>
-      </h1>
+      <div class="wrap grid4 hero-dots rv" style="--d:.24s" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </div>
 
-      <div class="hero-bottom anim-fade-up">
-        <div class="hero-desc">
-          <p>Transformando ideias em<br>experiências que <em>deixam marca</em>.</p>
-          <div class="hero-btns">
-            <a href="portfolio.html" class="btn-p">Ver Projetos</a>
-            <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn-g">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path
-                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      <div class="wrap grid4 hero-foot rv" style="--d:.3s">
+        <span class="scroll-cue"><i aria-hidden="true"></i>(Role para baixo)</span>
+        <span class="muted">Design · Motion · Code</span>
+        <span class="muted">20+ projetos entregues</span>
+        <span>© 2026 Sato<span class="tm">™</span> Studios</span>
+      </div>
+
+      <h1 class="wordmark" data-fit aria-label="Sato Studios">
+        <span><span>Sato<span class="tm">™</span></span></span>
+        <span><span>Studios</span></span>
+      </h1>
+    </section>
+
+    <!-- ═══════════ REEL ═══════════ -->
+    <section class="reel" data-reel aria-label="Trabalhos recentes">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="reel-sticky">
+        <div class="reel-cols" aria-hidden="true">
+          <div class="reel-col" data-dir="up">
+            <img src="01-imagens/web/teste-1.webp" alt="" loading="lazy" decoding="async" width="1080" height="1350">
+            <img src="01-imagens/web/teste-10.webp" alt="" loading="lazy" decoding="async" width="1800" height="1800">
+            <img src="01-imagens/web/teste-7.webp" alt="" loading="lazy" decoding="async" width="1280" height="720">
+            <img src="01-imagens/web/teste-16.webp" alt="" loading="lazy" decoding="async" width="1440" height="1800">
+            <img src="01-imagens/web/teste-5.webp" alt="" loading="lazy" decoding="async" width="736" height="736">
+          </div>
+          <div class="reel-col" data-dir="down">
+            <img src="01-imagens/web/teste-4.webp" alt="" loading="lazy" decoding="async" width="1327" height="1800">
+            <img src="01-imagens/web/teste-13.webp" alt="" loading="lazy" decoding="async" width="1800" height="720">
+            <img src="01-imagens/web/teste-12.webp" alt="" loading="lazy" decoding="async" width="1436" height="1800">
+            <img src="01-imagens/web/teste-9.webp" alt="" loading="lazy" decoding="async" width="1800" height="1013">
+            <img src="01-imagens/web/teste-2.webp" alt="" loading="lazy" decoding="async" width="1280" height="1600">
+          </div>
+          <div class="reel-col" data-dir="up">
+            <img src="01-imagens/web/teste-8.webp" alt="" loading="lazy" decoding="async" width="1273" height="1800">
+            <img src="01-imagens/web/teste-6.webp" alt="" loading="lazy" decoding="async" width="1309" height="736">
+            <img src="01-imagens/web/teste-15.webp" alt="" loading="lazy" decoding="async" width="1086" height="1448">
+            <img src="01-imagens/web/teste-11.webp" alt="" loading="lazy" decoding="async" width="1800" height="1800">
+          </div>
+          <div class="reel-col" data-dir="down">
+            <img src="01-imagens/web/teste-14.webp" alt="" loading="lazy" decoding="async" width="1080" height="1350">
+            <img src="01-imagens/web/teste-17.webp" alt="" loading="lazy" decoding="async" width="1800" height="750">
+            <img src="01-imagens/web/teste-3.webp" alt="" loading="lazy" decoding="async" width="1350" height="1800">
+            <img src="01-imagens/web/teste-10.webp" alt="" loading="lazy" decoding="async" width="1800" height="1800">
+          </div>
+        </div>
+        <div class="reel-shade" aria-hidden="true"></div>
+        <div class="reel-ui">
+          <div class="grid4">
+            <span class="lbl">(Trabalhos recentes)</span>
+            <span class="lbl c4 right">2023—26©</span>
+          </div>
+          <div class="grid4 reel-bottom">
+            <p class="reel-title c1-2">Pôsteres, thumbnails e marcas que param o scroll.</p>
+            <a href="portfolio.html" class="btn btn--light c4 right"><span class="roll">Ver portfólio</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
               </svg>
-              WhatsApp
             </a>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="sn" data-count="20" data-suffix="+">0</span>
-            <span class="sl">Projetos</span>
+    <!-- ═══════════ WORK ═══════════ -->
+    <section class="sec sec--grey" id="trabalhos">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="wrap">
+
+        <div id="ferramentas" class="grid4 tools-hd rv">
+          <span class="lbl">(Ferramentas)</span>
+          <span class="lbl c4 right">2023—26©</span>
+        </div>
+        <div class="tools-grid rv" style="--d:.08s">
+          <div class="tool">
+            <div class="tool-tile"><img src="01-imagens/photo-removebg-preview.png" alt="Photoshop"></div>
+            <div class="tool-cap"><b>Photoshop</b><span>95%</span></div>
           </div>
-          <div class="sdiv" aria-hidden="true"></div>
-          <div class="stat">
-            <span class="sn" data-count="3">0</span>
-            <span class="sl">Anos exp.</span>
+          <div class="tool">
+            <div class="tool-tile"><img src="01-imagens/after-removebg-preview.png" alt="After Effects"></div>
+            <div class="tool-cap"><b>After Effects</b><span>88%</span></div>
           </div>
-          <div class="sdiv" aria-hidden="true"></div>
-          <div class="stat">
-            <span class="sn" data-count="100" data-suffix="%">0</span>
-            <span class="sl">Dedicação</span>
+          <div class="tool tool--empty" aria-hidden="true"></div>
+          <div class="tool">
+            <div class="tool-tile"><img src="01-imagens/premiere-removebg-preview.png" alt="Premiere Pro"></div>
+            <div class="tool-cap"><b>Premiere Pro</b><span>85%</span></div>
+          </div>
+          <div class="tool">
+            <div class="tool-tile"><img src="01-imagens/adobe-removebg-preview.png" alt="Illustrator"></div>
+            <div class="tool-cap"><b>Illustrator</b><span>80%</span></div>
+          </div>
+          <div class="tool tool--empty" aria-hidden="true"></div>
+          <div class="tool">
+            <div class="tool-tile"><img src="01-imagens/figma-removebg-preview.png" alt="Figma"></div>
+            <div class="tool-cap"><b>Figma</b><span>78%</span></div>
+          </div>
+          <div class="tool">
+            <div class="tool-tile dark"><img src="01-imagens/codigo-removebg-preview.png" alt="Código"></div>
+            <div class="tool-cap"><b>HTML · CSS · JS</b><span>75%</span></div>
+          </div>
+        </div>
+
+        <div class="grid4 work">
+          <aside class="work-side">
+            <span class="lbl rv">(Portfólio 26©)</span>
+            <h2 class="h2 split">Trabalhos<span class="sup">(4)</span></h2>
+            <p class="muted rv" style="--d:.1s">Uma seleção de projetos feitos para clientes e para o próprio estúdio.</p>
+            <a href="portfolio.html" class="btn rv" style="--d:.15s"><span class="roll">Ver todos os trabalhos</span></a>
+          </aside>
+
+          <div class="work-list c2-4">
+            <a href="portfolio.html" class="wcard rv" data-cursor="Ver">
+              <div class="wcard-media">
+                <img class="wcard-bg" src="01-imagens/web/teste-10.webp" alt="" loading="lazy" aria-hidden="true">
+                <img class="wcard-img" src="01-imagens/web/teste-10.webp" alt="Pôster Ghost" loading="lazy">
+              </div>
+              <div class="wcard-cap"><span>Pôster</span><span>Ghost <span class="muted">(©26)</span></span></div>
+            </a>
+            <a href="portfolio.html" class="wcard rv" data-cursor="Ver">
+              <div class="wcard-media">
+                <img class="wcard-bg" src="01-imagens/web/teste-13.webp" alt="" loading="lazy" aria-hidden="true">
+                <img class="wcard-img" src="01-imagens/web/teste-13.webp" alt="Banner Brutalism" loading="lazy">
+              </div>
+              <div class="wcard-cap"><span>Banner</span><span>Brutalism <span class="muted">(©26)</span></span></div>
+            </a>
+            <a href="portfolio.html" class="wcard rv" data-cursor="Ver">
+              <div class="wcard-media">
+                <img class="wcard-bg" src="01-imagens/web/teste-4.webp" alt="" loading="lazy" aria-hidden="true">
+                <img class="wcard-img" src="01-imagens/web/teste-4.webp" alt="Pôster Century Boys" loading="lazy">
+              </div>
+              <div class="wcard-cap"><span>Pôster</span><span>Century Boys <span class="muted">(©25)</span></span>
+              </div>
+            </a>
+            <a href="portfolio.html" class="wcard rv" data-cursor="Ver">
+              <div class="wcard-media">
+                <img class="wcard-bg" src="01-imagens/web/teste-6.webp" alt="" loading="lazy" aria-hidden="true">
+                <img class="wcard-img" src="01-imagens/web/teste-6.webp" alt="Banner Stay — Interestellar"
+                  loading="lazy">
+              </div>
+              <div class="wcard-cap"><span>Banner</span><span>Stay — Interestellar <span
+                    class="muted">(©25)</span></span></div>
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="scroll-hint" aria-hidden="true">
-      <div class="sh-line"></div>
-      <span>scroll</span>
-    </div>
-  </section>
+    <!-- ═══════════ ABOUT ═══════════ -->
+    <section class="sec sec--white about" id="sobre">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="grid4 sec-hd" style="margin-bottom:0">
+          <span class="lbl rv">(Quem sou)</span>
+          <div class="c2-4">
+            <h2 class="h2 indent-h split"><span class="indent-lbl" data-nosplit>Sato<span class="tm">™</span><br>Studios</span>Transformo ideias em marcas com foco, intenção e impacto.</h2>
+          </div>
+        </div>
 
-  <!-- ════════════════════════════════
-     MARQUEE strip
-════════════════════════════════ -->
-  <div class="marquee-strip" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Design</span><span class="dot-sep">·</span>
-      <span>Motion Graphics</span><span class="dot-sep">·</span>
-      <span>Video Editing</span><span class="dot-sep">·</span>
-      <span>Web Dev</span><span class="dot-sep">·</span>
-      <span>After Effects</span><span class="dot-sep">·</span>
-      <span>Illustrator</span><span class="dot-sep">·</span>
-      <span>UI Design</span><span class="dot-sep">·</span>
-      <span>Branding</span><span class="dot-sep">·</span>
-      <span>Design</span><span class="dot-sep">·</span>
-      <span>Motion Graphics</span><span class="dot-sep">·</span>
-      <span>Video Editing</span><span class="dot-sep">·</span>
-      <span>Web Dev</span><span class="dot-sep">·</span>
-      <span>After Effects</span><span class="dot-sep">·</span>
-      <span>Illustrator</span><span class="dot-sep">·</span>
-      <span>UI Design</span><span class="dot-sep">·</span>
-      <span>Branding</span><span class="dot-sep">·</span>
-    </div>
-  </div>
+        <div class="grid4 bento">
+          <figure class="b-img c1-2 rv" data-progress>
+            <img src="01-imagens/web/teste-12.webp" alt="Pôster She, estilo retícula preto e branco" loading="lazy">
+            <figcaption>
+              <div class="avatars" aria-hidden="true">
+                <span style="background-image:url('01-imagens/web/teste-2.webp')"></span>
+                <span style="background-image:url('01-imagens/web/teste-11.webp')"></span>
+                <span style="background-image:url('01-imagens/web/teste-15.webp')"></span>
+                <span>+20</span>
+              </div>
+              <p>projetos entregues para marcas e criadores de todo o Brasil</p>
+            </figcaption>
+          </figure>
 
-  <!-- ════════════════════════════════
-     SOBRE
-════════════════════════════════ -->
-  <section class="sec" id="sobre">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">01</span>
-        <span class="etag">// sobre mim</span>
-      </div>
+          <div class="b-card rv" style="--d:.08s">
+            <span class="lbl">(Em números)</span>
+            <p class="b-big"><span class="count" data-count="3">0</span> anos criando,<br><span><span class="count" data-count="100">0</span>% de
+                dedicação</span></p>
+          </div>
 
-      <div class="about-grid">
-        <div class="about-l reveal">
-          <h2 class="sec-title">Criativo<br>por<br><em>natureza</em></h2>
-          <div class="chip">
-            <div class="chip-av">S</div>
-            <div>
-              <strong>Santos</strong>
-              <span>Designer · Editor · Dev</span>
+          <div class="b-card rv" style="--d:.16s">
+            <span class="lbl">(Colaboração ao vivo)</span>
+            <div class="chat" data-chat>
+              <span class="chat-time">Hoje 17:01</span>
+              <span class="bubble them" style="--i:0">Oii! Amei o banner 🔥</span>
+              <span class="bubble them" style="--i:1">Dá pra ajustar a cor do título?</span>
+              <span class="chat-time" style="margin-top:4px">Hoje 17:02</span>
+              <span class="bubble me" style="--i:2">Claro! Te mando em 10 min</span>
+              <span class="bubble them" style="--i:3">Perfeito, obrigado!</span>
             </div>
           </div>
         </div>
 
-        <div class="about-r reveal" style="--rd:.1s">
-          <p>Me chamo <strong>Santos</strong>, sou designer, editor de vídeo e programador, apaixonado por transformar
-            ideias em experiências visuais que realmente se conectam com as pessoas.</p>
-          <p>Acredito que design, movimento e código só fazem sentido quando contam uma história e geram impacto real.
-          </p>
-          <p>Mais do que criar algo bonito, meu objetivo é criar algo que <em>faça sentido</em> e deixe uma impressão
-            duradoura.</p>
-          <div class="tags">
-            <span class="tag">Motion Graphics</span>
-            <span class="tag">UI Design</span>
-            <span class="tag">Video Editing</span>
-            <span class="tag">Web Dev</span>
-            <span class="tag">After Effects</span>
-            <span class="tag">Illustrator</span>
+        <div class="grid4 about-txt">
+          <div class="rv">
+            <span class="lbl">(Santos)</span>
+            <p class="muted">Designer · Editor · Dev</p>
           </div>
-          <a href="https://www.instagram.com/sato_motion/" target="_blank" rel="noopener" class="btn-g sm">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path
-                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-            </svg>
-            Instagram
-          </a>
+          <div class="c2-3 rv" style="--d:.08s">
+            <p class="lead">Me chamo <strong>Santos</strong>, sou designer, editor de vídeo e programador, apaixonado por
+              transformar ideias em experiências visuais que <strong>realmente se conectam</strong> com as pessoas.</p>
+            <p class="lead">Acredito que design, movimento e código só fazem sentido quando contam uma história e geram
+              impacto real. Mais do que criar algo bonito, meu objetivo é criar algo que <strong>faça sentido</strong> e
+              deixe uma impressão duradoura.</p>
+          </div>
+          <div class="c4 rv" style="--d:.16s">
+            <div class="tags">
+              <span class="tag">Motion Graphics</span>
+              <span class="tag">UI Design</span>
+              <span class="tag">Video Editing</span>
+              <span class="tag">Web Dev</span>
+              <span class="tag">After Effects</span>
+              <span class="tag">Illustrator</span>
+            </div>
+            <a href="https://www.instagram.com/sato_motion/" target="_blank" rel="noopener" class="btn"><span
+                class="roll">Seguir no Instagram</span></a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ════════════════════════════════
-     PROJETOS
-════════════════════════════════ -->
-  <section class="sec">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">02</span>
-        <span class="etag">// projetos</span>
+    <!-- ═══════════ VISION ═══════════ -->
+    <section class="vision" data-vision aria-label="Visão">
+      <div class="vision-sticky">
+        <div class="grid4">
+          <span class="lbl">(Minha visão)</span>
+          <span class="lbl c4 right muted">(Role para ver mais)</span>
+        </div>
+        <div class="grid4 vision-body">
+          <span class="lbl">Feito diferente</span>
+          <div class="c2-4">
+            <span class="vl">Design com propósito</span>
+            <span class="vl">Movimento com emoção</span>
+            <span class="vl">Código com paixão</span>
+            <span class="vl">Criar com visão</span>
+            <span class="vl">Inovar sempre</span>
+          </div>
+        </div>
+        <div class="grid4 vision-foot">
+          <span class="lbl" data-vnum>01</span>
+          <div class="vbar c2-3"><i></i></div>
+          <span class="lbl c4 right">/ 05</span>
+        </div>
       </div>
+    </section>
 
-      <div class="proj-hdr reveal">
-        <h2 class="sec-title">Trabalhos<br><em>Selecionados</em></h2>
-        <a href="portfolio.html" class="link-arr">Ver todos <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-            aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-          </svg></a>
-      </div>
-      <p class="sec-sub reveal" style="--rd:.05s">Amostras de projetos feitos para clientes.</p>
-
-      <div class="proj-grid">
-        <a href="portfolio.html" class="pcard reveal" style="--rd:.0s">
-          <div class="pimg" style="background-image:url('01-imagens/teste-1.jpeg')">
-            <div class="pover"><span>Abrir <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4M10.5 1.5V8" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" />
+    <!-- ═══════════ SERVICES ═══════════ -->
+    <section class="sec sec--white services" id="servicos">
+      <div class="wrap">
+        <div class="grid4 sec-hd">
+          <span class="lbl rv">(Serviços)</span>
+          <div class="c4 right rv"><a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn"><span
+                class="roll">Começar um projeto</span></a></div>
+        </div>
+        <ul class="svc-list" data-svc>
+          <li class="svc rv" data-img="01-imagens/web/teste-1.webp">
+            <div class="svc-main"><span class="svc-n">(001)</span><span class="svc-name">Design Gráfico</span></div>
+            <div class="svc-desc"><span>Pôsteres, banners e artes para redes sociais.</span><span class="svc-arrow"
+                aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                 </svg></span></div>
-          </div>
-          <div class="pmeta"><span class="pcat">Banner Design</span><span class="pyr">2024</span></div>
-        </a>
-        <a href="portfolio.html" class="pcard reveal" style="--rd:.1s">
-          <div class="pimg" style="background-image:url('01-imagens/teste-5.jpeg')">
-            <div class="pover"><span>Abrir <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4M10.5 1.5V8" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" />
+          </li>
+          <li class="svc rv" data-img="01-imagens/web/teste-9.webp">
+            <div class="svc-main"><span class="svc-n">(002)</span><span class="svc-name">Motion Graphics</span></div>
+            <div class="svc-desc"><span>Animações 2D, vinhetas e composições com VFX.</span><span class="svc-arrow"
+                aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                 </svg></span></div>
-          </div>
-          <div class="pmeta"><span class="pcat">Motion Graphics</span><span class="pyr">2024</span></div>
-        </a>
-        <a href="portfolio.html" class="pcard reveal" style="--rd:.2s">
-          <div class="pimg" style="background-image:url('01-imagens/teste-9.jpeg')">
-            <div class="pover"><span>Abrir <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M1.5 10.5L10.5 1.5M10.5 1.5H4M10.5 1.5V8" stroke="currentColor" stroke-width="1.5"
-                    stroke-linecap="round" />
+          </li>
+          <li class="svc rv" data-img="01-imagens/web/teste-7.webp">
+            <div class="svc-main"><span class="svc-n">(003)</span><span class="svc-name">Edição de Vídeo</span></div>
+            <div class="svc-desc"><span>Cortes, color grading e thumbnails para canais.</span><span class="svc-arrow"
+                aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                 </svg></span></div>
+          </li>
+          <li class="svc rv" data-img="01-imagens/web/teste-13.webp">
+            <div class="svc-main"><span class="svc-n">(004)</span><span class="svc-name">Web Design</span></div>
+            <div class="svc-desc"><span>Landing pages rápidas, responsivas e com movimento.</span><span
+                class="svc-arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></span></div>
+          </li>
+          <li class="svc rv" data-img="01-imagens/web/teste-5.webp">
+            <div class="svc-main"><span class="svc-n">(005)</span><span class="svc-name">Branding</span></div>
+            <div class="svc-desc"><span>Logotipo, paleta, tipografia e identidade visual.</span><span
+                class="svc-arrow" aria-hidden="true"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg></span></div>
+          </li>
+        </ul>
+      </div>
+      <div class="svc-float" id="svcFloat" aria-hidden="true"></div>
+    </section>
+
+    <!-- ═══════════ SHOWREEL ═══════════ -->
+    <section class="showreel" data-showreel aria-label="Showreel">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="showreel-sticky">
+        <div class="showreel-frame">
+          <video muted loop playsinline preload="none" data-src="02-videos/Fundo.mp4"></video>
+        </div>
+        <div class="showreel-txt" aria-hidden="true"><span>Showreel</span><span>26©</span></div>
+        <div class="showreel-ui">
+          <span class="lbl">(Motion)</span>
+          <span class="lbl">Sato<span class="tm">™</span> Studios</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PRICING ═══════════ -->
+    <section class="sec sec--white pricing" id="precos">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="grid4 sec-hd">
+          <span class="lbl rv">(Preços)</span>
+          <div class="c2-4">
+            <h2 class="h-xl split">Escolha certo.</h2>
+            <p class="muted rv" style="margin-top:18px;--d:.1s">Escolha o plano que combina com você. Preferências são
+              alinhadas ao solicitar o orçamento.</p>
           </div>
-          <div class="pmeta"><span class="pcat">Visual Design</span><span class="pyr">2024</span></div>
-        </a>
+        </div>
+
+        <div class="grid4">
+          <div class="c2-4">
+            <div class="plans">
+              <article class="plan rv">
+                <div class="plan-top"><h3 class="plan-name">Origin</h3><span class="chip">(Plano 1)</span></div>
+                <p class="plan-desc">Para quem precisa de uma arte certeira, com layout técnico e entrega rápida.</p>
+                <div class="plan-price">R$<span class="count" data-count="75">0</span><small>/ projeto</small></div>
+                <p class="plan-sm">O que está incluso:</p>
+                <ul class="plan-feats">
+                  <li>1 arte estática</li>
+                  <li>Layout técnico</li>
+                  <li>Até 3 revisões</li>
+                  <li>Entrega em PNG/JPG</li>
+                </ul>
+                <div class="plan-time"><span>Prazo:</span><span>2–4 dias úteis</span></div>
+                <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn btn--block"><span
+                    class="roll">Solicitar orçamento</span></a>
+              </article>
+
+              <article class="plan plan--dark rv" style="--d:.1s">
+                <div class="plan-top"><h3 class="plan-name">Infinity</h3><span class="chip">★ Popular</span></div>
+                <p class="plan-desc">Para marcas que querem consistência: mais artes, layout adaptável e prioridade.</p>
+                <div class="plan-price">R$<span class="count" data-count="130">0</span><small>/ projeto</small></div>
+                <p class="plan-sm">O que está incluso:</p>
+                <ul class="plan-feats">
+                  <li>2 artes estáticas</li>
+                  <li>Layout totalmente adaptável</li>
+                  <li>Até 5 revisões</li>
+                  <li>Entrega PNG/JPG com alta prioridade</li>
+                </ul>
+                <div class="plan-time"><span>Prazo:</span><span>Prioritário</span></div>
+                <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn btn--light btn--block"><span
+                    class="roll">Solicitar orçamento</span></a>
+              </article>
+            </div>
+
+            <div class="soon-hd rv">
+              <span class="lbl">(Sites &amp; motion)</span>
+              <span class="lbl muted">Em breve</span>
+            </div>
+            <div class="soon">
+              <div class="soon-card rv">
+                <div class="plan-top"><span class="plan-name">Flow</span><span class="chip">Em breve</span></div>
+                <span class="soon-price">R$360 <small>ou 12x de R$30</small></span>
+                <ul>
+                  <li>Motion Graphics Flow</li>
+                  <li>Efeitos 2D</li>
+                  <li>SFX</li>
+                </ul>
+              </div>
+              <div class="soon-card rv" style="--d:.06s">
+                <div class="plan-top"><span class="plan-name">Pulse</span><span class="chip">Em breve</span></div>
+                <span class="soon-price">R$370</span>
+                <ul>
+                  <li>Motion Graphics Pulse</li>
+                  <li>Efeitos 2D e 3D</li>
+                  <li>SFX e VFX</li>
+                </ul>
+              </div>
+              <div class="soon-card rv" style="--d:.12s">
+                <div class="plan-top"><span class="plan-name">Impact</span><span class="chip">Em breve</span></div>
+                <span class="soon-price">R$690</span>
+                <ul>
+                  <li>Motion Graphics Impact</li>
+                  <li>Efeitos 2D e 3D</li>
+                  <li>SFX, VFX e narração</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="grid4 faq" id="faq">
+          <span class="lbl rv">(FAQ)</span>
+          <div class="c2-3 faq-wrap rv">
+            <div class="faq-list">
+              <div class="faq-item">
+                <button class="faq-q" aria-expanded="false" aria-controls="faq1"><span>01</span><span>Qual o prazo médio
+                    de entrega?</span><i class="faq-ic" aria-hidden="true"></i></button>
+                <div class="faq-a" id="faq1" role="region">
+                  <div>
+                    <p>Para banners estáticos, o prazo é de 2 a 4 dias úteis após a aprovação do briefing. Projetos
+                      maiores como identidade visual completa ou motion graphics podem levar de 5 a 10 dias úteis.
+                      Entregas urgentes podem ser negociadas com um adicional de prioridade.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" aria-expanded="false" aria-controls="faq2"><span>02</span><span>Como funciona o
+                    processo de revisão?</span><i class="faq-ic" aria-hidden="true"></i></button>
+                <div class="faq-a" id="faq2" role="region">
+                  <div>
+                    <p>Cada plano inclui um número específico de revisões. Uma revisão cobre ajustes de texto, cor,
+                      posicionamento e pequenas alterações no layout. Mudanças drásticas de conceito após a aprovação
+                      inicial podem ser tratadas como novo projeto.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" aria-expanded="false" aria-controls="faq3"><span>03</span><span>Quais formatos de
+                    arquivo são entregues?</span><i class="faq-ic" aria-hidden="true"></i></button>
+                <div class="faq-a" id="faq3" role="region">
+                  <div>
+                    <p>Para banners: PNG e JPG em alta resolução. Para motion: MP4 em alta qualidade, podendo incluir
+                      GIF animado. Para identidade visual: AI, PDF vetorial e PNG com fundo transparente. Formatos
+                      adicionais podem ser solicitados sem custo extra.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" aria-expanded="false" aria-controls="faq4"><span>04</span><span>Como é feito o
+                    pagamento?</span><i class="faq-ic" aria-hidden="true"></i></button>
+                <div class="faq-a" id="faq4" role="region">
+                  <div>
+                    <p>O pagamento é feito via PIX, com 50% de entrada para iniciar o projeto e 50% na entrega do
+                      arquivo final aprovado. Para projetos recorrentes ou clientes frequentes, condições especiais podem
+                      ser negociadas diretamente pelo WhatsApp.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-item">
+                <button class="faq-q" aria-expanded="false" aria-controls="faq5"><span>05</span><span>Você atende fora
+                    de Goiás?</span><i class="faq-ic" aria-hidden="true"></i></button>
+                <div class="faq-a" id="faq5" role="region">
+                  <div>
+                    <p>Sim! Todo o processo é 100% online, então atendo clientes de qualquer estado ou país. A
+                      comunicação é feita por WhatsApp e o envio dos arquivos por plataformas digitais. Não existe
+                      fronteira para criar.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <aside class="more c4 rv" style="--d:.1s">
+            <span class="lbl">(Procurando algo mais?)</span>
+            <p>Identidade completa, motion ou site sob medida? Vamos montar um escopo juntos.</p>
+            <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn"><span class="roll">Fale
+                comigo</span></a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ TESTIMONIALS ═══════════ -->
+    <section class="testi" id="depoimentos" data-testi aria-label="Depoimentos">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="testi-sticky">
+        <div class="grid4">
+          <span class="lbl">(Depoimentos)</span>
+          <span class="lbl c4 right muted">(Role para ver mais)</span>
+        </div>
+
+        <div class="grid4">
+          <div class="testi-stage c2-4">
+            <figure class="quote on">
+              <blockquote>“O Santos entregou um banner que superou todas as expectativas. Atendimento rápido,
+                profissional e resultado incrível. Com certeza voltarei a trabalhar com ele.”</blockquote>
+              <figcaption><span class="q-av">LM</span><span>Lucas Mendes<small>Empresário · E-commerce</small></span>
+              </figcaption>
+            </figure>
+            <figure class="quote">
+              <blockquote>“Trabalho impecável. Minha identidade visual ficou exatamente como eu idealizei — moderna,
+                impactante e coerente com minha marca. Recomendo demais!”</blockquote>
+              <figcaption><span class="q-av">AC</span><span>Ana Carolina<small>Designer · Criadora de
+                    conteúdo</small></span></figcaption>
+            </figure>
+            <figure class="quote">
+              <blockquote>“Pedi um motion para meu canal e recebi algo muito além do esperado. Prazo cumprido,
+                comunicação ótima e qualidade de topo. Vale cada centavo!”</blockquote>
+              <figcaption><span class="q-av">RF</span><span>Rafael Figueira<small>Youtuber · Streamer</small></span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+
+        <div class="grid4 testi-foot">
+          <span class="stars" aria-label="5 de 5 estrelas">★★★★★</span>
+          <div class="q-nums c4" aria-hidden="true"><span class="on">01</span><span>02</span><span>03</span><em>/ 03</em>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ PROCESS ═══════════ -->
+    <section class="sec sec--dark process" id="processo">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="grid4 sec-hd process-hd">
+          <span class="lbl muted rv">(Processo)</span>
+          <div class="c2-4">
+            <h2 class="h2 split">Do briefing à entrega, com transparência em cada etapa.</h2>
+            <p class="rv" style="--d:.1s">Sem achismos e sem surpresas. Você acompanha cada passo e aprova o caminho
+              antes de percorrê-lo.</p>
+            <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn btn--light rv"
+              style="--d:.15s"><span class="roll">Vamos conversar</span></a>
+          </div>
+        </div>
+
+        <div class="steps">
+          <article class="step rv">
+            <span class="lbl">(Descoberta)</span>
+            <h3 class="step-t">Briefing</h3>
+            <p>Entendo seu negócio, público e objetivos. Uma conversa inicial define tudo o que vem depois.</p>
+            <div class="step-foot"><span class="lbl">(001)</span>
+              <div class="step-chips"><span>Formulário</span><span>Call</span><span>Referências</span></div>
+            </div>
+          </article>
+          <article class="step rv" style="--d:.08s">
+            <span class="lbl">(Direção criativa)</span>
+            <h3 class="step-t">Conceito</h3>
+            <p>Moodboard e referências antes de qualquer pixel. Você aprova a direção visual primeiro.</p>
+            <div class="step-foot"><span class="lbl">(002)</span>
+              <div class="step-chips"><span>Moodboard</span><span>Paleta</span><span>Tipografia</span></div>
+            </div>
+          </article>
+          <article class="step rv" style="--d:.16s">
+            <span class="lbl">(Execução)</span>
+            <h3 class="step-t">Criação</h3>
+            <p>Atenção absoluta aos detalhes, com updates constantes. Pronto só quando você estiver satisfeito.</p>
+            <div class="step-foot"><span class="lbl">(003)</span>
+              <div class="step-chips"><span>Revisões</span><span>Updates</span><span>Iterações</span></div>
+            </div>
+          </article>
+          <article class="step rv" style="--d:.24s">
+            <span class="lbl">(Entrega)</span>
+            <h3 class="step-t">Arquivo final</h3>
+            <p>Formatos certos para cada plataforma, alta resolução e suporte pós-entrega.</p>
+            <div class="step-foot"><span class="lbl">(004)</span>
+              <div class="step-chips"><span>PNG · JPG · AI</span><span>Alta resolução</span><span>Suporte</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section class="sec--white contact" id="contato" style="position:relative">
+      <div class="dome" aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="contact-card" data-progress>
+          <img src="01-imagens/web/teste-8.webp" alt="" loading="lazy" aria-hidden="true">
+          <div class="contact-top">
+            <span class="lbl">(Contato)</span>
+            <span class="lbl">Goiás, BR — <span data-clock>00:00</span></span>
+          </div>
+          <div>
+            <h2 class="contact-title split">Vamos conversar.</h2>
+            <div class="contact-btns rv">
+              <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn btn--light"><span
+                  class="roll">Chamar no WhatsApp</span></a>
+              <a href="https://www.instagram.com/sato_motion/" target="_blank" rel="noopener"
+                class="btn btn--line"><span class="roll">Instagram</span></a>
+            </div>
+            <p class="contact-note rv">Respondo em até 24h. Orçamento sem compromisso.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="ftr">
+    <div class="wrap grid4 ftr-grid">
+      <div>
+        <span class="lbl">(Navegação)</span>
+        <a href="#sobre" class="ulink">Sobre</a>
+        <a href="#trabalhos" class="ulink">Trabalhos</a>
+        <a href="#servicos" class="ulink">Serviços</a>
+        <a href="#precos" class="ulink">Preços</a>
+      </div>
+      <div>
+        <span class="lbl">(Redes)</span>
+        <a href="https://www.instagram.com/sato_motion/" target="_blank" rel="noopener" class="ulink">Instagram</a>
+        <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="ulink">WhatsApp</a>
+      </div>
+      <div>
+        <span class="lbl">(Páginas)</span>
+        <a href="index.html" class="ulink">Home</a>
+        <a href="portfolio.html" class="ulink">Portfólio</a>
+      </div>
+      <div class="right">
+        <button class="to-top" data-top><span class="roll">Voltar ao topo</span> ↑</button>
       </div>
     </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     FERRAMENTAS / SKILLS
-════════════════════════════════ -->
-  <section class="sec" id="ferramentas">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">03</span>
-        <span class="etag">// ferramentas</span>
-      </div>
-
-      <div class="proj-hdr reveal">
-        <h2 class="sec-title">Stack &<br><em>Habilidades</em></h2>
-      </div>
-      <p class="sec-sub reveal" style="--rd:.05s">Ferramentas que uso no dia a dia para criar.</p>
-
-      <div class="tools-grid reveal" style="--rd:.1s" id="toolsGrid">
-
-        <div class="tool-cell">
-          <div class="tool-header">
-            <div class="tool-icon">
-              <img src="01-imagens/photo-removebg-preview.png" alt="Photoshop">
-            </div>
-            <span class="tool-badge">Imagem</span>
-          </div>
-          <div class="tool-name">Photoshop</div>
-          <div class="tool-desc">Tratamento de imagens, composições fotográficas e design gráfico avançado.</div>
-          <div class="tool-bar-wrap">
-            <div class="tool-bar-label"><span>Proficiência</span><b>95%</b></div>
-            <div class="tool-bar-track">
-              <div class="tool-bar-fill" data-width="95"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tool-cell">
-          <div class="tool-header">
-            <div class="tool-icon">
-              <img src="01-imagens/after-removebg-preview.png" alt="After Effects">
-            </div>
-            <span class="tool-badge">Motion</span>
-          </div>
-          <div class="tool-name">After Effects</div>
-          <div class="tool-desc">Motion graphics, animações 2D, composição e VFX para vídeos profissionais.</div>
-          <div class="tool-bar-wrap">
-            <div class="tool-bar-label"><span>Proficiência</span><b>88%</b></div>
-            <div class="tool-bar-track">
-              <div class="tool-bar-fill" data-width="88"></div>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="tool-cell">
-          <div class="tool-header">
-            <div class="tool-icon">
-              <img src="01-imagens/premiere-removebg-preview.png" alt="Premiere Pro">
-            </div>
-            <span class="tool-badge">Vídeo</span>
-          </div>
-          <div class="tool-name">Premiere Pro</div>
-          <div class="tool-desc">Edição de vídeo profissional, color grading e montagem narrativa.</div>
-          <div class="tool-bar-wrap">
-            <div class="tool-bar-label"><span>Proficiência</span><b>85%</b></div>
-            <div class="tool-bar-track">
-              <div class="tool-bar-fill" data-width="85"></div>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+    <div class="wordmark" data-fit aria-hidden="true">
+      <span><span>Sato<span class="tm">™</span></span></span>
+      <span><span>Studios</span></span>
     </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     PROCESSO
-════════════════════════════════ -->
-  <section class="sec" id="processo">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">04</span>
-        <span class="etag">// processo</span>
-      </div>
-
-      <div class="proj-hdr reveal">
-        <h2 class="sec-title">Como<br><em>Trabalho</em></h2>
-      </div>
-      <p class="sec-sub reveal" style="--rd:.05s">Do briefing à entrega — com transparência em cada etapa.</p>
-
-      <div class="process-timeline reveal" style="--rd:.1s">
-
-        <div class="proc-row">
-          <div class="proc-line-col">
-            <div class="proc-circle"><span class="proc-circle-num">01</span></div>
-          </div>
-          <div class="proc-content">
-            <span class="proc-tag">// descoberta</span>
-            <h3 class="proc-title">Briefing <em>estratégico</em></h3>
-            <p class="proc-desc">Entendo seu negócio, público-alvo e objetivos. Sem achismos — só o que importa pra
-              você. Uma conversa inicial define tudo o que vem depois.</p>
-            <div class="proc-chips">
-              <span class="proc-chip">Formulário</span>
-              <span class="proc-chip">Call</span>
-              <span class="proc-chip">Referências</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="proc-row">
-          <div class="proc-line-col">
-            <div class="proc-circle"><span class="proc-circle-num">02</span></div>
-          </div>
-          <div class="proc-content">
-            <span class="proc-tag">// direção criativa</span>
-            <h3 class="proc-title">Conceito &amp; <em>estética</em></h3>
-            <p class="proc-desc">Desenvolvo a direção visual e apresento moodboard com referências antes de qualquer
-              pixel ser criado. Você aprova o caminho antes de percorrê-lo.</p>
-            <div class="proc-chips">
-              <span class="proc-chip">Moodboard</span>
-              <span class="proc-chip">Paleta</span>
-              <span class="proc-chip">Tipografia</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="proc-row">
-          <div class="proc-line-col">
-            <div class="proc-circle"><span class="proc-circle-num">03</span></div>
-          </div>
-          <div class="proc-content">
-            <span class="proc-tag">// execução</span>
-            <h3 class="proc-title">Criação com <em>precisão</em></h3>
-            <p class="proc-desc">Executo com atenção absoluta aos detalhes, mantendo você atualizado. Aberto a revisões
-              — o projeto só está pronto quando você estiver satisfeito.</p>
-            <div class="proc-chips">
-              <span class="proc-chip">Revisões incluídas</span>
-              <span class="proc-chip">Updates</span>
-              <span class="proc-chip">Iterações</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="proc-row">
-          <div class="proc-line-col">
-            <div class="proc-circle"><span class="proc-circle-num">04</span></div>
-          </div>
-          <div class="proc-content">
-            <span class="proc-tag">// entrega</span>
-            <h3 class="proc-title">Arquivo final &amp; <em>suporte</em></h3>
-            <p class="proc-desc">Entrego nos formatos corretos para cada plataforma, com qualidade garantida e suporte
-              pós-entrega. Você sai com tudo pronto pra usar.</p>
-            <div class="proc-chips">
-              <span class="proc-chip">PNG · JPG · AI</span>
-              <span class="proc-chip">Alta resolução</span>
-              <span class="proc-chip">Suporte</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     BANNERS PRICING
-════════════════════════════════ -->
-  <section class="sec" id="precos">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">05</span>
-        <span class="etag">// banners</span>
-      </div>
-
-      <h2 class="sec-title reveal">Planos de<br><em>Banners</em></h2>
-      <p class="sec-sub reveal" style="--rd:.05s">Preferências tratadas ao solicitar orçamento.</p>
-
-      <div class="plan-grid two reveal" style="--rd:.1s">
-        <div class="pcard-plan">
-          <span class="plbl">Plano 1</span>
-          <h3 class="pname">Origin</h3>
-          <div class="pprice">R$<b data-count="75">0</b><small>,00</small></div>
-          <ul class="pfeats">
-            <li>1 arte estática</li>
-            <li>Layout técnico</li>
-            <li>Até 3 revisões</li>
-            <li>Entrega PNG/JPG</li>
-          </ul>
-          <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="pbtn">Solicitar Orçamento</a>
-        </div>
-
-        <div class="pcard-plan hot">
-          <div class="hot-lbl">Popular</div>
-          <span class="plbl">Plano 2</span>
-          <h3 class="pname">Infinity</h3>
-          <div class="pprice">R$<b data-count="130">0</b><small>,00</small></div>
-          <ul class="pfeats">
-            <li>2 artes estáticas</li>
-            <li>Layout totalmente adaptável</li>
-            <li>Até 5 revisões</li>
-            <li>Entrega PNG/JPG alta prioridade</li>
-          </ul>
-          <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="pbtn accent">Solicitar Orçamento</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     MOTION PRICING
-════════════════════════════════ -->
-  <section class="sec" id="motion">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">06</span>
-        <span class="etag">// Sites e softwares</span>
-      </div>
-
-      <h2 class="sec-title reveal">Planos de<br><em>landing-page</em></h2>
-      <p class="sec-sub reveal" style="--rd:.05s">Sites e motion para marcas que querem se destacar online.</p>
-
-      <div class="plan-grid three reveal" style="--rd:.1s">
-        <div class="pcard-plan dim">
-          <div class="dim-lbl">Em breve</div>
-          <span class="plbl">Plano 1</span>
-          <h3 class="pname">Flow</h3>
-          <div class="pprice">R$<b data-count="360">0</b><small>ou 12x de R$30,00</small></div>
-          <ul class="pfeats">
-            <li>Motion Graphics Flow</li>
-            <li>Efeitos 2D</li>
-            <li>SFX</li>
-          </ul>
-          <button class="pbtn" disabled>Indisponível</button>
-        </div>
-        <div class="pcard-plan dim">
-          <div class="dim-lbl">Em breve</div>
-          <span class="plbl">Plano 2</span>
-          <h3 class="pname">Pulse</h3>
-          <div class="pprice">R$<b data-count="370">0</b><small>,00</small></div>
-          <ul class="pfeats">
-            <li>Motion Graphics Pulse</li>
-            <li>Efeitos 2D e 3D</li>
-            <li>SFX e VFX</li>
-          </ul>
-          <button class="pbtn" disabled>Indisponível</button>
-        </div>
-        <div class="pcard-plan dim">
-          <div class="dim-lbl">Em breve</div>
-          <span class="plbl">Plano 3</span>
-          <h3 class="pname">Impact</h3>
-          <div class="pprice">R$<b data-count="690">0</b><small>,00</small></div>
-          <ul class="pfeats">
-            <li>Motion Graphics Impact</li>
-            <li>Efeitos 2D e 3D</li>
-            <li>SFX, VFX e Narração</li>
-          </ul>
-          <button class="pbtn" disabled>Indisponível</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     DEPOIMENTOS
-════════════════════════════════ -->
-  <section class="sec" id="depoimentos">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">07</span>
-        <span class="etag">// depoimentos</span>
-      </div>
-
-      <div class="proj-hdr reveal">
-        <h2 class="sec-title">O que dizem<br><em>os clientes</em></h2>
-      </div>
-      <p class="sec-sub reveal" style="--rd:.05s">Experiências reais de quem já trabalhou comigo.</p>
-
-      <div class="test-grid reveal" style="--rd:.1s">
-
-        <div class="test-card">
-          <div class="test-stars">
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-          </div>
-          <p class="test-text">"O Santos entregou um banner que superou todas as expectativas. Atendimento rápido,
-            profissional e resultado incrível. Com certeza voltarei a trabalhar com ele."</p>
-          <div class="test-author">
-            <div class="test-av">LM</div>
-            <div class="test-info">
-              <strong>Lucas Mendes</strong>
-              <span>Empresário · E-commerce</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="test-card">
-          <div class="test-stars">
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-          </div>
-          <p class="test-text">"Trabalho impecável. Minha identidade visual ficou exatamente como eu idealizei —
-            moderna, impactante e coerente com minha marca. Recomendo demais!"</p>
-          <div class="test-author">
-            <div class="test-av">AC</div>
-            <div class="test-info">
-              <strong>Ana Carolina</strong>
-              <span>Designer · Criadora de conteúdo</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="test-card">
-          <div class="test-stars">
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-            <div class="test-star"></div>
-          </div>
-          <p class="test-text">"Pedi um motion para meu canal e recebi algo muito além do esperado. Prazo cumprido,
-            comunicação ótima e qualidade de topo. Vale cada centavo!"</p>
-          <div class="test-author">
-            <div class="test-av">RF</div>
-            <div class="test-info">
-              <strong>Rafael Figueira</strong>
-              <span>Youtuber · Streamer</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     FAQ
-════════════════════════════════ -->
-  <section class="sec" id="faq">
-    <div class="sec-wrap">
-      <div class="eyebrow reveal">
-        <span class="enum">08</span>
-        <span class="etag">// dúvidas</span>
-      </div>
-
-      <div class="proj-hdr reveal">
-        <h2 class="sec-title">Perguntas<br><em>Frequentes</em></h2>
-      </div>
-
-      <div class="faq-list reveal" style="--rd:.1s" id="faqList">
-
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq1">
-            Qual o prazo médio de entrega?
-            <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 2v8M2 6h8" stroke-width="1.5" stroke-linecap="round" />
-              </svg></div>
-          </button>
-          <div class="faq-a" id="faq1" role="region">
-            <div class="faq-a-inner">Para banners estáticos, o prazo é de 2 a 4 dias úteis após a aprovação do briefing.
-              Projetos maiores como identidade visual completa ou motion graphics podem levar de 5 a 10 dias úteis.
-              Entregas urgentes podem ser negociadas com um adicional de prioridade.</div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq2">
-            Como funciona o processo de revisão?
-            <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 2v8M2 6h8" stroke-width="1.5" stroke-linecap="round" />
-              </svg></div>
-          </button>
-          <div class="faq-a" id="faq2" role="region">
-            <div class="faq-a-inner">Cada plano inclui um número específico de revisões. Uma revisão cobre ajustes de
-              texto, cor, posicionamento e pequenas alterações no layout. Mudanças drásticas de conceito após a
-              aprovação inicial podem ser tratadas como novo projeto.</div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq3">
-            Quais formatos de arquivo são entregues?
-            <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 2v8M2 6h8" stroke-width="1.5" stroke-linecap="round" />
-              </svg></div>
-          </button>
-          <div class="faq-a" id="faq3" role="region">
-            <div class="faq-a-inner">Para banners: PNG e JPG em alta resolução. Para motion: MP4 em alta qualidade,
-              podendo incluir GIF animado. Para identidade visual: AI, PDF vetorial e PNG com fundo transparente.
-              Formatos adicionais podem ser solicitados sem custo extra.</div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq4">
-            Como é feito o pagamento?
-            <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 2v8M2 6h8" stroke-width="1.5" stroke-linecap="round" />
-              </svg></div>
-          </button>
-          <div class="faq-a" id="faq4" role="region">
-            <div class="faq-a-inner">O pagamento é feito via PIX, com 50% de entrada para iniciar o projeto e 50% na
-              entrega do arquivo final aprovado. Para projetos recorrentes ou clientes frequentes, condições especiais
-              podem ser negociadas diretamente pelo WhatsApp.</div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-q" aria-expanded="false" aria-controls="faq5">
-            Você atende fora de Goiás?
-            <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 2v8M2 6h8" stroke-width="1.5" stroke-linecap="round" />
-              </svg></div>
-          </button>
-          <div class="faq-a" id="faq5" role="region">
-            <div class="faq-a-inner">Sim! Todo o processo é 100% online, então atendo clientes de qualquer estado ou
-              país. A comunicação é feita por WhatsApp e o envio dos arquivos por plataformas digitais. Não existe
-              fronteira para criar.</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     CTA
-════════════════════════════════ -->
-  <section class="cta-sec">
-    <div class="cta-inner reveal">
-      <p class="cta-ey">// vamos trabalhar juntos</p>
-      <h2 class="cta-disp">LET'S<br><em>WORK</em><br>TOGETHER</h2>
-      <a href="https://wa.me/993486316" target="_blank" rel="noopener" class="btn-p lg">
-        Iniciar projeto
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-        </svg>
-      </a>
-    </div>
-  </section>
-
-  <!-- ════════════════════════════════
-     FOOTER
-════════════════════════════════ -->
-  <footer class="footer">
-    <div class="footer-giant" aria-hidden="true">SATO<span>STUDIOS</span></div>
-    <div class="footer-bar">
-      <p>© Sato Motion Studios — v4.0</p>
-      <button class="back-top" id="backTop" aria-label="Voltar ao topo">Back to top ↑</button>
+    <div class="ftr-bar">
+      <span>© 2026 Sato™ Studios — Todos os direitos reservados</span>
+      <span>Design · Motion · Code</span>
     </div>
   </footer>
 
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
   <script src="04-scripts/script.js"></script>
-
-  <script>
-    /* ══════════════════════════════════════
-       TOOLS BAR ANIMATION
-    ══════════════════════════════════════ */
-    const toolsObs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.tool-bar-fill').forEach(bar => {
-            bar.style.width = bar.dataset.width + '%';
-          });
-          toolsObs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    const toolsGrid = document.getElementById('toolsGrid');
-    if (toolsGrid) toolsObs.observe(toolsGrid);
-
-    /* ══════════════════════════════════════
-       FAQ ACCORDION
-    ══════════════════════════════════════ */
-    document.querySelectorAll('.faq-q').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        const targetId = btn.getAttribute('aria-controls');
-        const answer = document.getElementById(targetId);
-
-        // Close all
-        document.querySelectorAll('.faq-q').forEach(b => {
-          b.setAttribute('aria-expanded', 'false');
-          document.getElementById(b.getAttribute('aria-controls')).classList.remove('open');
-        });
-
-        // Open clicked (if was closed)
-        if (!isOpen) {
-          btn.setAttribute('aria-expanded', 'true');
-          answer.classList.add('open');
-        }
-      });
-    });
-  </script>
-
 </body>
 
 </html>
