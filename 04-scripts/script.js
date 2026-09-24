@@ -172,12 +172,12 @@ if (menu && burger) {
 ══════════════════════════════════════ */
 function countUp(el) {
   const target = parseInt(el.dataset.count, 10);
-  if (reduceMotion) { el.textContent = target; return; }
+  if (reduceMotion) { el.textContent = target.toLocaleString('pt-BR'); return; }
   const start = performance.now();
   const dur = 1200;
   (function step(now) {
     const k = Math.min((now - start) / dur, 1);
-    el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3)));
+    el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))).toLocaleString('pt-BR');
     if (k < 1) requestAnimationFrame(step);
   })(start);
 }
@@ -422,7 +422,7 @@ if (svcList && svcFloat && finePointer && !reduceMotion) {
 }
 
 /* ══════════════════════════════════════
-   CURSOR LABEL ("Ver")
+   CURSOR LABEL ("Ampliar", no portfólio)
 ══════════════════════════════════════ */
 const cursor = $('#cursor');
 if (cursor && finePointer && !reduceMotion) {
